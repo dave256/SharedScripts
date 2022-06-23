@@ -1,0 +1,15 @@
+cdSubDir () {
+	CWD=`pwd` 
+	if [ `basename $CWD` != "$1" ]
+	then
+		cd "$1"
+		CWD=`pwd` 
+	fi
+}
+
+export COURSESECTIONS=CS160-01:CS160-12:CS160-02:CS160-1:CS261-01:CS261-9:CS261-02:CS261-12
+
+export ROSTERS=CS160-12:/Users/dreed/Private/Grades/Fall2022/CS160-12/roster.csv:CS160-1:/Users/dreed/Private/Grades/Fall2022/CS160-1/roster.csv:CS261-9:/Users/dreed/Private/Grades/Fall2022/CS261-9/roster.csv:CS261-12:/Users/dreed/Private/Grades/Fall2022/CS261-12/roster.csv
+
+export PATH=$PATH:$HOME/FileLabs:$HOME/CodePostScripts:$HOME/DaveScripts
+

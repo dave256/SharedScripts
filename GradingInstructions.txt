@@ -1,0 +1,27 @@
+#After each submission, download the submission from iLearn
+
+cd ~/Downloads
+extract.zsh ReplaceThisWithNameOfDownloadedFile.zip
+
+# that command should have made ~/Labs/CS160/Grade with
+# a submission for each student by email address
+
+cd ~/Labs/CS160
+# this will move files to the appropriate Week?? directory
+~/Capital/CS160/HomeworkForVideos5/Week??/mvForTheseFiles.zsh
+
+# must do those commands for each submission separately 
+# download from iLearn
+# extract.zsh
+# mvScript.zsh
+
+# after doing this for each weekly submission, you are ready
+# to run the script that tests their files
+
+cd ~/Labs/CS160
+
+# this runs the test script
+~/Capital/CS160/HomeworkForVideos5/Week??/rd.zsh
+
+# this uploads to codepost.io
+~/Capital/CS160/HomeworkForVideos5/Week??/cpUpload.zsh
