@@ -86,7 +86,8 @@ def main():
                 courseSection = f[pos:pos+11]
                 courseNumber = courseSection[:8].replace("-", "")
                 courseSection = courseSection.replace("MATH-", "MATH")
-
+            else:
+                pos = f.find("UC-")
         isMath = courseNumber.find("MATH") != -1
 
         possibleCourses = []
