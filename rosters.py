@@ -75,19 +75,23 @@ def main():
     for f in files:
         courseSection = None
         courseNumber = None
-        pos = f.find("CS-")
-        if pos != -1:
-            courseSection = f[pos:pos+9]
-            courseNumber = courseSection[:6].replace("-", "")
-            courseSection = courseSection.replace("CS-", "CS")
-        else:
+        twoLetterPrefixes = ["CS-", "UC-"]
+        found = False
+        for prefix in twoLetterPrefixes:
+            pos = f.find(f"{prefix}")
+            if pos != -1:
+                courseSection = f[pos:pos+9]
+                courseNumber = courseSection[:6].replace("-", "")
+                courseSection = courseSection.replace(f"{prefix}", prefix[:2])
+                break
+        
+        if pos == -1:
             pos = f.find("MATH-")
             if pos != -1:
                 courseSection = f[pos:pos+11]
                 courseNumber = courseSection[:8].replace("-", "")
                 courseSection = courseSection.replace("MATH-", "MATH")
-            else:
-                pos = f.find("UC-")
+
         isMath = courseNumber.find("MATH") != -1
 
         possibleCourses = []
@@ -102,7 +106,6 @@ def main():
             else:
                 if courseNumber == course[:5]:
                     possibleCourses.append(course)
-        
         
         if len(possibleCourses) > 1:
             if courseSection in sectionDict:
@@ -160,3 +163,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
