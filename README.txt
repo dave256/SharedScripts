@@ -28,4 +28,10 @@ quit Terminal and restart it
 in Safari Preferences -> General, turn off "Open safe files after
 downloading" so it does not unzip iLearn submissions
 
+from mycap, for each course, use the download option to download a
+roster for each course
+
+in Terminal execute:
+rosters.py
+
 
