@@ -136,20 +136,21 @@ def main():
         # so can work if mycap.py is in PATH with my SharedScripts repo
         cmd = f"myCap.py '{f}'"
         os.system(cmd)
-        if not isMath:
-            cmd = f"mv roster.csv {envDict[selectedCourse]}"
-        else:
+
+        if isMath and "CS481" in destDir:
             cmd = f"mv roster.csv {destDir}/math-roster.csv"
+        else:
+            cmd = f"mv roster.csv {destDir}/roster.csv"
         os.system(cmd)
         
         #cmd = f"$HOME/Scripts/myCap2ga.py '{f}'"
         # so can work if mycap.py is in PATH with my SharedScripts repo
         cmd = f"myCap2ga.py '{f}'"
         os.system(cmd)
-        if not isMath:
-            cmd = f"mv ga.csv {destDir}/ga.csv"
-        else:
+        if isMath and "CS481" in destDir:
             cmd = f"mv ga.csv {destDir}/math-ga.csv"
+        else:
+            cmd = f"mv ga.csv {destDir}/ga.csv"
         os.system(cmd)
 
     print()
