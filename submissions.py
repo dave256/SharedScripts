@@ -36,6 +36,7 @@ def checkZip():
     else:
         print("does not need unzipped")
 
+
 def matchFiles(course: Course):
     home = os.getenv("HOME")
     downloads = f"{home}/Downloads"
@@ -45,7 +46,7 @@ def matchFiles(course: Course):
     files = glob.glob(f"{submissionsPath}/*")
     courseName = course.name().split("-")[0]
     gradePath = FileInfo(home, "Labs", courseName, "Grade")
-    shutil.rmtree(gradePath.filePath())
+    shutil.rmtree(gradePath.filePath(), True)
     os.makedirs(gradePath.filePath())
 
     for f in files:
@@ -71,32 +72,38 @@ def matchFiles(course: Course):
         for f in files:
             print(f)
 
+
 def main():
     parser = ArgumentParser(description='extract Canvas submissions')
 
     # parser.add_argument("-k", "--keep", dest="keepFiles", default=False, action='store_true')
-    # parser.add_argument("files", nargs='*', default=None,
-    #                     help='''files containing rosters from myCap''')
-    parser.add_argument("courseName",
-                        help='''name of course from roster''')
+    parser.add_argument("courseNames", nargs='*', default=None,
+                        help='''course names matching environment variables for courses''')
     options = parser.parse_args()
-    courseName = options.courseName
-
 
     # read rosters based on environment variable
     rosterInfo = RosterInfo()
     rosterInfo.readRostersFromEnvironmentVariable("ROSTERS")
-    course = rosterInfo.courseWithName(courseName)
-    if course is None:
-        course = rosterInfo.mergedCourse(courseName)
-    if course is None:
+
+    courseName = None
+    if options.courseNames is not None and len(options.courseNames) == 1:
+        courseName = options.courseNames[0]
+    else:
+        home = os.getenv("HOME")
+        downloads = f"{home}/Downloads"
+        zipPath = f"{downloads}/submissions.zip"
+        courseName = rosterInfo.determineCourse(zipPath)
+
+    if courseName is None:
         print(f"could not find course {courseName}")
         return
 
+    course = rosterInfo.courseWithName(courseName)
+    if course is None:
+        course = rosterInfo.mergedCourse(courseName)
+
     checkZip()
     matchFiles(course)
-
-
 
 
 # ----------------------------------------------------------------------
