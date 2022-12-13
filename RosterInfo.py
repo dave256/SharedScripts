@@ -58,6 +58,12 @@ class Course:
         self._students = []
         self._byLastName = {}
 
+    def clone(self) -> Course:
+        c = Course(self._name, self._rosterFilename)
+        c._students = self._students[:]
+        c._byLastName = self._byLastName.copy()
+        return c
+
     def filename(self):
         return self._rosterFilename
 
@@ -164,11 +170,25 @@ class RosterInfo:
 
     # ------------------------------------------------------------------
 
-    def courseWithName(self, name) -> Optional[Course]:
+    def courseWithName(self, name: str) -> Optional[Course]:
         for c in self._courses:
             if c.name() == name:
                 return c
         return None
+
+    # ------------------------------------------------------------------
+
+    def mergedCourse(self, namePrefix: str) -> Optional[Course]:
+        result: Optional[Course] = None
+        for c in self._courses:
+            if c.name().startswith(namePrefix):
+                if result is None:
+                    result = c.clone()
+                else:
+                    result._name += f" + {c.name()}"
+                    for s in c.students():
+                        result.addStudent(s)
+        return result
 
     # ------------------------------------------------------------------
 

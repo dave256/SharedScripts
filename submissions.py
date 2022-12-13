@@ -88,6 +88,8 @@ def main():
     rosterInfo.readRostersFromEnvironmentVariable("ROSTERS")
     course = rosterInfo.courseWithName(courseName)
     if course is None:
+        course = rosterInfo.mergedCourse(courseName)
+    if course is None:
         print(f"could not find course {courseName}")
         return
 
