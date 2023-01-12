@@ -32,7 +32,7 @@ def checkZip():
 
     if needsUnzipped:
         with zipfile.ZipFile(zipPath, "r") as infile:
-            infile.extractall(downloads)
+            infile.extractall(submissionsPath)
     else:
         print("does not need unzipped")
 
@@ -78,7 +78,11 @@ def main():
 
     # parser.add_argument("-k", "--keep", dest="keepFiles", default=False, action='store_true')
     parser.add_argument("courseNames", nargs='*', default=None,
-                        help='''course names matching environment variables for courses''')
+                        help='''course names matching environment variables for courses
+examples: 
+submissions.py CS410 or
+submissions.py CS160-12 CS160-1
+                ''')
     options = parser.parse_args()
 
     # read rosters based on environment variable
