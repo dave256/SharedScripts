@@ -57,7 +57,7 @@ def main(argv):
                     lastName = nameFields[-1]
                     middleName = " ".join(nameFields[1:-1])
                     
-                print(f"{lastName},{firstName},{middleName},{email},{identifier},{note}", file=outfile)
+                print(f"{lastName.replace('-', '')},{firstName},{middleName},{email},{identifier},{note}", file=outfile)
 
 # ----------------------------------------------------------------------
 
