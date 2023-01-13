@@ -319,7 +319,6 @@ class RosterInfo:
             filenames = [s for s in filenames if s != "" and s[0] != "."]
             # get everything up to first underscore which should be lastfirst for the person
             users = set([s.split("_")[0] for s in filenames])
-            print(users)
             courseDict = {}
             for c in self._courses:
                 courseDict[c.name()] = set()
