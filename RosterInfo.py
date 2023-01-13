@@ -10,16 +10,19 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 
+import re
 import os
 import os.path
 import csv
 import zipfile
 import FileUtils
 
+
 @dataclass
 class EmailFile:
     email: str
     filename: str
+
 
 class Student:
 
@@ -55,6 +58,7 @@ class Student:
         return f"{self.firstName} {self.lastName} {self.email} {str(self.courses)}"
 
 # ----------------------------------------------------------------------
+
 
 class Course:
 
@@ -114,6 +118,16 @@ class Course:
 
         if firstPos != -1 and secondPos != -1:
             filename = path[thirdPos + 1:]
+            # break into name and extension (extension contains the period)
+            name, extension = os.path.splitext(filename)
+            # check if filename portion ends in "-1", etc. for resubmissions
+            dashDigits = re.compile(r"-(\d)+$")
+            result = dashDigits.search(name)
+            if result is not None:
+                # cut off the characters at the end with the dash as they were resubmissions
+                name = name[:result.span()[0]]
+                filename = name + extension
+
             user = path[:firstPos].lower()
             for student in self._students:
                 if student.matchesLastNameFirstName(user):
