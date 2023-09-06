@@ -50,6 +50,11 @@ def matchFiles(course: Course):
     os.makedirs(gradePath.filePath())
 
     for f in files:
+        # Canvas adds _LATE_ as part of filename so remove it if it's there
+        if "_LATE_" in f:
+            newName = f.replace("_LATE_", "_")
+            os.rename(f, newName)
+            f = newName
         filename = FileInfo(f).fileName()
         result = course.findStudentBySubmissionFile(filename)
         if result is not None:
