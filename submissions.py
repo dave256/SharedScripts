@@ -14,6 +14,7 @@ import zipfile
 from RosterInfo import *
 from FileUtils import *
 
+
 def checkZip():
     home = os.getenv("HOME")
     downloads = f"{home}/Downloads"
