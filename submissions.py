@@ -15,7 +15,10 @@ from RosterInfo import *
 from FileUtils import *
 
 
-def checkZip():
+def checkZip() ->str:
+    """
+    :return: full path of submissions.zip
+    """
     home = os.getenv("HOME")
     downloads = f"{home}/Downloads"
     zipPath = f"{downloads}/submissions.zip"
@@ -36,6 +39,7 @@ def checkZip():
             infile.extractall(submissionsPath)
     else:
         print("does not need unzipped")
+    return zipPath
 
 
 def matchFiles(course: Course):
@@ -82,7 +86,7 @@ def matchFiles(course: Course):
 def main():
     parser = ArgumentParser(description='extract Canvas submissions')
 
-    # parser.add_argument("-k", "--keep", dest="keepFiles", default=False, action='store_true')
+    parser.add_argument("-k", "--keep", dest="keepFiles", default=False, action='store_true')
     parser.add_argument("courseNames", nargs='*', default=None,
                         help='''course names matching environment variables for courses
 examples: 
@@ -112,9 +116,19 @@ submissions.py CS160-12 CS160-1
     if course is None:
         course = rosterInfo.mergedCourse(courseName)
 
-    checkZip()
+    # indicate which course
+    if course is None:
+        print("stopping as could not find course")
+        return
+    else:
+        print(f"unzipping for {course}")
+
+    zipPath = checkZip()
     matchFiles(course)
 
+    # remove submissions.zip unless keep flag specified
+    if not options.keepFiles:
+        os.remove(zipPath)
 
 # ----------------------------------------------------------------------
 
