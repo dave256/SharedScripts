@@ -332,16 +332,34 @@ class RosterInfo:
                 if len(courseDict[courseName]) > 0:
                     nonZero.append(courseName)
 
+            mergedCourses = dict()
             if len(nonZero) == 1:
                 return nonZero[0]
             else:
                 result = set()
                 for name in nonZero:
                     # remove section and add to set
-                    result.add(name.split("-")[0])
+                    prefix = name.split("-")[0]
+                    if prefix in result:
+                        mergedCourses[prefix].update(courseDict[name])
+                    else:
+                        mergedCourses[prefix] = courseDict[name].copy()
+                    result.add(prefix)
+
                 if len(result) == 1:
                     return result.pop()
 
+            # try to match the course with the higher count
+            # a better approach would be to match the course with a higher percentage
+            # of submissions
+            maxCount = 0
+            maxCourse = None
+            for course in mergedCourses:
+                if len(mergedCourses[course]) > maxCount:
+                    maxCourse = course
+                    maxCount = len(mergedCourses[course])
+            if maxCount > 0:
+                return maxCourse
             return None
 
     # ------------------------------------------------------------------
